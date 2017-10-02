@@ -1,6 +1,7 @@
 package com.yavuzoktay.onlinequizz;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,6 @@ public class RankingFragment extends Fragment {
     DatabaseReference questionScore, rankingTbl ;
 
     int sum = 0;
-
 
 
 
@@ -83,14 +83,16 @@ public class RankingFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Ranking, RankingViewHolder>(Ranking.class,R.layout.layout_ranking,RankingViewHolder.class,rankingTbl.orderByChild("score")) {
 
             @Override
-            protected void populateViewHolder(RankingViewHolder viewHolder, Ranking model, int position) {
+            protected void populateViewHolder(RankingViewHolder viewHolder, final Ranking model, int position) {
                 viewHolder.txt_name.setText(model.getUserName());
                 viewHolder.txt_score.setText(String.valueOf(model.getScore()));
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-
+                        Intent scoreDetail= new Intent(getActivity(),ScoreDetail.class);
+                        scoreDetail.putExtra("viewUser",model.getUserName());
+                        startActivity(scoreDetail);
                     }
                 });
             }
@@ -102,7 +104,6 @@ public class RankingFragment extends Fragment {
         return myFragment;
 
     }
-
 
 
     private void updateScore(final String userName, final RankingCallBack<Ranking> callBack) {

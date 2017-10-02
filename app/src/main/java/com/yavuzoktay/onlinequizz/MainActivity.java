@@ -1,5 +1,7 @@
 package com.yavuzoktay.onlinequizz;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -16,8 +18,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.yavuzoktay.onlinequizz.BroadcastReceiver.AlarmReceiver;
 import com.yavuzoktay.onlinequizz.Common.Common;
 import com.yavuzoktay.onlinequizz.Model.User;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     MaterialEditText edtNewUser,edtNewPassword,edtNewEmail;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        registerAlarm();
 
         database =FirebaseDatabase.getInstance();
         users=database.getReference("Users");
@@ -57,6 +64,19 @@ public class MainActivity extends AppCompatActivity {
                 signIn(edtUser.getText().toString(),edtPassword.getText().toString());
             }
         });
+    }
+
+    private void registerAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,9); //9 hour
+        calendar.set(Calendar.MINUTE,40); // this minute notification
+        calendar.set(Calendar.SECOND,0);
+
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent= PendingIntent.getBroadcast(MainActivity.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alm= (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+        alm.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
     }
 
     private void signIn(final String user, final String pwd) {

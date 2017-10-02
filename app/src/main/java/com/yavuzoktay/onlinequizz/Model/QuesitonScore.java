@@ -7,16 +7,19 @@ package com.yavuzoktay.onlinequizz.Model;
 public class QuesitonScore {
     private String Question_Score;
     private String User ;
-    private  String Score ;
-
+    private String Score ;
+    private String CategoryId;
+    private String CategoryName;
 
     public QuesitonScore() {
     }
 
-    public QuesitonScore(String question_Score, String user, String score) {
+    public QuesitonScore(String question_Score, String user, String score, String categoryId, String categoryName) {
         Question_Score = question_Score;
         User = user;
         Score = score;
+        CategoryId = categoryId;
+        CategoryName = categoryName;
     }
 
     public String getQuestion_Score() {
@@ -41,6 +44,22 @@ public class QuesitonScore {
 
     public void setScore(String score) {
         Score = score;
+    }
+
+    public String getCategoryId() {
+        return CategoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        CategoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
     }
 }
 
