@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerAlarm() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9); //9 hour
+        calendar.set(Calendar.HOUR_OF_DAY,9); //9 hour //this time
         calendar.set(Calendar.MINUTE,40); // this minute notification
         calendar.set(Calendar.SECOND,0);
 
